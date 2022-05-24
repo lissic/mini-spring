@@ -2,10 +2,12 @@ package com.zero.springframework;
 
 import com.zero.springframework.bean.UserService;
 import com.zero.springframework.beans.BeansException;
-import com.zero.springframework.beans.factory.BeanFactory;
 import com.zero.springframework.beans.factory.config.BeanDefinition;
 import com.zero.springframework.beans.factory.support.DefaultListableBeanFactory;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 
 /**
  * @author zero
@@ -29,5 +31,32 @@ public class SpringTest {
         UserService userService1 = (UserService) beanFactory.getBean("userService");
         System.out.println(userService1);
         userService1.queryUserInfo();
+    }
+
+    @Test
+    public void test_BeanFactory2() throws BeansException {
+        // 1、初始化BeanFactory
+        DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
+        // 2、注入bean
+        BeanDefinition beanDefinition = new BeanDefinition(UserService.class);
+        beanFactory.registerBeanDefinition("userService", beanDefinition);
+
+        // 3、获取bean
+        UserService userService = (UserService) beanFactory.getBean("userService", "Zero");
+        userService.queryUserInfo();
+    }
+
+    @Test
+    public void test_newInstance() throws Exception {
+        UserService userService = UserService.class.newInstance();
+        System.out.println(userService);
+    }
+
+    @Test
+    public void test_constructor() throws Exception {
+        Class<UserService> userServiceClass = UserService.class;
+        Constructor<UserService> cotr = userServiceClass.getDeclaredConstructor(String.class);
+        UserService userService = cotr.newInstance("Zero");
+        userService.queryUserInfo();
     }
 }
