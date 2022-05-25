@@ -1,8 +1,13 @@
 package com.zero.springframework;
 
+import com.zero.springframework.bean.UserDao;
 import com.zero.springframework.bean.UserService;
+import com.zero.springframework.bean.UserService2;
 import com.zero.springframework.beans.BeansException;
+import com.zero.springframework.beans.PropertyValue;
+import com.zero.springframework.beans.PropertyValues;
 import com.zero.springframework.beans.factory.config.BeanDefinition;
+import com.zero.springframework.beans.factory.config.BeanReference;
 import com.zero.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.junit.Test;
 
@@ -57,6 +62,18 @@ public class SpringTest {
         Class<UserService> userServiceClass = UserService.class;
         Constructor<UserService> cotr = userServiceClass.getDeclaredConstructor(String.class);
         UserService userService = cotr.newInstance("Zero");
+        userService.queryUserInfo();
+    }
+
+    @Test
+    public void test_BeanFactory_with_Reference() throws BeansException {
+        DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
+        beanFactory.registerBeanDefinition("userDao", new BeanDefinition(UserDao.class));
+        PropertyValues pvs = new PropertyValues();
+        pvs.addPropertyValue(new PropertyValue("userId", "1001"));
+        pvs.addPropertyValue(new PropertyValue("userDao", new BeanReference("userDao")));
+        beanFactory.registerBeanDefinition("userService",new BeanDefinition(UserService2.class, pvs));
+        UserService2 userService = (UserService2)beanFactory.getBean("userService");
         userService.queryUserInfo();
     }
 }
