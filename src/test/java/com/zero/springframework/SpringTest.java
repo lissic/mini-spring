@@ -12,7 +12,6 @@ import com.zero.springframework.beans.factory.support.DefaultListableBeanFactory
 import org.junit.Test;
 
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 
 /**
  * @author zero
