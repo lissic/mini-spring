@@ -1,9 +1,13 @@
 package com.zero.springframework.beans.factory.support;
 
+import cn.hutool.core.bean.BeanException;
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.StrUtil;
 import com.zero.springframework.beans.BeansException;
 import com.zero.springframework.beans.PropertyValue;
 import com.zero.springframework.beans.PropertyValues;
+import com.zero.springframework.beans.factory.DisposableBean;
+import com.zero.springframework.beans.factory.InitializingBean;
 import com.zero.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import com.zero.springframework.beans.factory.config.BeanDefinition;
 import com.zero.springframework.beans.factory.config.BeanPostProcessor;
@@ -11,6 +15,7 @@ import com.zero.springframework.beans.factory.config.BeanReference;
 import org.omg.CORBA.ObjectHelper;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
 
 /**
  * @author zero
@@ -33,8 +38,17 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
         } catch (Exception e) {
             throw new BeansException("Instantiation of bean failed", e);
         }
+
+        registerDisposableBeanIfNecessary(beanName, bean, beanDefinition);
+
         addSingleton(beanName, bean);
         return bean;
+    }
+
+    private void registerDisposableBeanIfNecessary(String beanName, Object bean, BeanDefinition beanDefinition) {
+        if (bean instanceof DisposableBean || StrUtil.isNotEmpty(beanDefinition.getDestroyMethodName())) {
+            registerDisposableBean(beanName, new DisposableBeanAdapter(bean,beanName, beanDefinition));
+        }
     }
 
     protected void applyPropertyValues(String beanName, Object bean, BeanDefinition beanDefinition) throws BeansException {
@@ -81,13 +95,30 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
     private Object initializeBean(String beanName, Object bean, BeanDefinition beanDefinition) throws BeansException {
         Object wrappedBean = applyBeanPostProcessorsBeforeInitialization(bean, beanName);
 
-        invokeInitMethod(beanName, wrappedBean, beanDefinition);
+        try {
+            invokeInitMethod(beanName, wrappedBean, beanDefinition);
+        } catch (Exception e) {
+            throw new BeansException("Instantiation of bean failed", e);
+        }
 
         wrappedBean = applyBeanPostProcessorsAfterInitialization(wrappedBean, beanName);
         return wrappedBean;
     }
 
-    private void invokeInitMethod(String beanName, Object wrappedBean, BeanDefinition beanDefinition) {
+    private void invokeInitMethod(String beanName, Object bean, BeanDefinition beanDefinition) throws Exception {
+        // 1、实现接口 InitializingBean
+        if(bean instanceof InitializingBean) {
+            ((InitializingBean)bean).afterPropertiesSet();;
+        }
+        // 2、配置信息init-method
+        String initMethodName = beanDefinition.getInitMethodName();
+        if (StrUtil.isNotEmpty(initMethodName)) {
+            Method initMethod = beanDefinition.getBeanClass().getMethod(initMethodName);
+            if (null == initMethod) {
+                throw new BeanException("Could not find an init method named '" + initMethodName + "' on bean with name '" + beanName + "'");
+            }
+            initMethod.invoke(bean);
+        }
 
     }
 

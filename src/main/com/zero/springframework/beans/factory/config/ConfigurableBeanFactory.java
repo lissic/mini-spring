@@ -1,5 +1,6 @@
 package com.zero.springframework.beans.factory.config;
 
+import com.zero.springframework.beans.BeansException;
 import com.zero.springframework.beans.factory.HierarchicalBeanFactory;
 
 /**
@@ -12,4 +13,6 @@ public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, Single
     String SCOPE_PROTOTYPE = "prototype";
 
     void addBeanPostProcessor(BeanPostProcessor beanPostProcessor);
+
+    void destroySingletons() throws BeansException;
 }
