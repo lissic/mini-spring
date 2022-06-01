@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans>
+
+    <bean id="userDao" class="com.zero.springframework.bean.ProxyBeanFactory"/>
+
+    <bean id="userService" class="com.zero.springframework.bean.UserService6" scope="prototype">
+        <property name="userId" value="1001"/>
+        <property name="userDao" ref="userDao"/>
+    </bean>
+
+</beans>
