@@ -14,7 +14,7 @@ import java.lang.reflect.Constructor;
  */
 public class CglibSubclassingInstantiationStrategy implements InstantiationStrategy{
     @Override
-    public Object instantiate(BeanDefinition beanDefinition, String BeanName, Constructor ctor, Object[] args) throws BeansException {
+    public Object instantiate(BeanDefinition beanDefinition, String BeanName, Constructor ctor, Object[] args) {
         Enhancer enhancer = new Enhancer();
         enhancer.setSuperclass(beanDefinition.getBeanClass());
         enhancer.setCallback(new NoOp() {
