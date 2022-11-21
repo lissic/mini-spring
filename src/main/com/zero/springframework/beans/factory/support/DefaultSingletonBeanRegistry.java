@@ -10,7 +10,7 @@ import java.util.Set;
 
 /**
  * @author zero
- * @description DefaultSingletonBeanRegistry
+ * @description DefaultSingletonBeanRegistry 默认的单例对象注册接口实现
  * @date 2022/4/18 11:53
  */
 public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
