@@ -18,7 +18,7 @@ import java.lang.reflect.Method;
 
 /**
  * @author zero
- * @description AbstractAutowireCapableBeanFactory
+ * @description AbstractAutowireCapableBeanFactory 实现创建Bean的具体逻辑
  * @date 2022/4/18 11:52
  */
 public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFactory implements AutowireCapableBeanFactory {

@@ -11,7 +11,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author zero
- * @description DefaultListableBeanFactory
+ * @description DefaultListableBeanFactory 默认实现BeanFactory的实现类，Spring中的获取Bean的过程都是在这个类中完成的
  * @date 2022/4/18 11:53
  */
 public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFactory implements BeanDefinitionRegistry, ConfigurableListableBeanFactory {

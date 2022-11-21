@@ -12,7 +12,7 @@ import java.util.List;
 
 /**
  * @author zero
- * @description AbstractBeanFactory
+ * @description AbstractBeanFactory Bean工厂抽象类，定义了获取Bean的标准流程
  * @date 2022/4/18 11:52
  */
 public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport implements ConfigurableBeanFactory {
