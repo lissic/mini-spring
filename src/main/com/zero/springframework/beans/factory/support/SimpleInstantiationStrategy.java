@@ -8,7 +8,7 @@ import java.lang.reflect.InvocationTargetException;
 
 /**
  * @author zero
- * @description SimpleInstantiationStrategy
+ * @description SimpleInstantiationStrategy， 默认通过JAVA本身的DeclaredConstructor方法实例化对象
  * @date 2022/5/24 15:47
  */
 public class SimpleInstantiationStrategy implements InstantiationStrategy{

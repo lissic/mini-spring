@@ -9,7 +9,7 @@ import java.lang.reflect.Constructor;
 
 /**
  * @author zero
- * @description CglibSubclassingInstantiationStrategy
+ * @description CglibSubclassingInstantiationStrategy 通过ASM指令实例化代带参数的实例对象
  * @date 2022/5/24 15:59
  */
 public class CglibSubclassingInstantiationStrategy implements InstantiationStrategy{
