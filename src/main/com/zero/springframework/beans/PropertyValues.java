@@ -5,7 +5,7 @@ import java.util.List;
 
 /**
  * @author zero
- * @description PropertyValues
+ * @description PropertyValues 属性集合
  * @date 2022/5/25 14:39
  */
 public class PropertyValues {

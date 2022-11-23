@@ -2,7 +2,7 @@ package com.zero.springframework.beans;
 
 /**
  * @author zero
- * @description PropertyValue
+ * @description PropertyValue 对象属性
  * @date 2022/5/25 14:37
  */
 public class PropertyValue {
