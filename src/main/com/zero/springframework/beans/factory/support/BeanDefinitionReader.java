@@ -6,7 +6,7 @@ import com.zero.springframework.core.io.ResourceLoader;
 
 /**
  * @author zero
- * @description BeanDefinitionReader
+ * @description BeanDefinitionReader Bean对象定义读取接口
  * @date 2022/5/25 16:31
  */
 public interface BeanDefinitionReader {

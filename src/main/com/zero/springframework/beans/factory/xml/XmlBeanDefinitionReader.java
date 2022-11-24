@@ -104,13 +104,16 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
                 String attrName = property.getAttribute("name");
                 String attrValue = property.getAttribute("value");
                 String attrRef = property.getAttribute("ref");
+                // 获取属性值：引入对象，值对象
                 Object value = StrUtil.isNotEmpty(attrRef) ? new BeanReference(attrRef) : attrValue;
+                // 创建属性信息
                 PropertyValue pv = new PropertyValue(attrName, value);
                 beanDefinition.getPropertyValues().addPropertyValue(pv);
             }
             if (getRegistry().containsBeanDefinition(beanName)) {
                 throw new BeansException("Duplicate beanName[" + beanName + "] is not allowed");
             }
+            // 注册BeanDefinition
             getRegistry().registerBeanDefinition(beanName, beanDefinition);
         }
     }
