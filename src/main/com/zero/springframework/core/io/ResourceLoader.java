@@ -2,7 +2,7 @@ package com.zero.springframework.core.io;
 
 /**
  * @author zero
- * @description ResourceLoader
+ * @description ResourceLoader 资源加载接口
  * @date 2022/5/25 16:27
  */
 public interface ResourceLoader {

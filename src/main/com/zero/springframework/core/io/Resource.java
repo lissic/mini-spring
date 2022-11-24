@@ -5,7 +5,7 @@ import java.io.InputStream;
 
 /**
  * @author zero
- * @description Resource
+ * @description Resource 资源接口
  * @date 2022/5/25 16:13
  */
 public interface Resource {
