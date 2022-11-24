@@ -8,7 +8,7 @@ import java.lang.reflect.Method;
 
 /**
  * @author zero
- * @description DisposableBeanAdapter
+ * @description DisposableBeanAdapter Bean销毁接口适配器
  * @date 2022/5/30 15:14
  */
 public class DisposableBeanAdapter implements DisposableBean {
