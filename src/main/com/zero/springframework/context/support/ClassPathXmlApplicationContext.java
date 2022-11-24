@@ -4,7 +4,7 @@ import com.zero.springframework.beans.BeansException;
 
 /**
  * @author zero
- * @description ClassPathXmlApplicationContext
+ * @description ClassPathXmlApplicationContext 应用上下文实现类
  * @date 2022/5/26 16:29
  */
 public class ClassPathXmlApplicationContext extends AbstractXmlApplicationContext{
@@ -15,6 +15,11 @@ public class ClassPathXmlApplicationContext extends AbstractXmlApplicationContex
     }
 
 
+    /**
+     * 从XML中文件中加载BeanDefinition，并刷新上下文
+     * @param configLocations
+     * @throws BeansException
+     */
     public ClassPathXmlApplicationContext(String[] configLocations) throws BeansException {
         this.configLocations = configLocations;
         refresh();
