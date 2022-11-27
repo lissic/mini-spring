@@ -5,7 +5,7 @@ import org.aopalliance.intercept.MethodInterceptor;
 
 /**
  * @author zero
- * @description AdvisedSupport
+ * @description AdvisedSupport 将代理、拦截、匹配的各个属性包装到一个类中，方便在Proxy实现类中使用
  * @date 2022/6/8 14:46
  */
 public class AdvisedSupport {

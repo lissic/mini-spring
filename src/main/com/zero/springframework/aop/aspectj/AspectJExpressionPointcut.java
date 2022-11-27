@@ -13,7 +13,7 @@ import java.util.Set;
 
 /**
  * @author zero
- * @description AspectJExpressionPointcut
+ * @description AspectJExpressionPointcut 切点表达式实现类
  * @date 2022/6/8 14:40
  */
 public class AspectJExpressionPointcut implements Pointcut, ClassFilter, MethodMatcher {
