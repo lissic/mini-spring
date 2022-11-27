@@ -5,7 +5,7 @@ import com.zero.springframework.context.ApplicationListener;
 
 /**
  * @author zero
- * @description ApplicationEventMulticaster
+ * @description ApplicationEventMulticaster 事件广播器接口
  * @date 2022/6/2 14:09
  */
 public interface ApplicationEventMulticaster {
