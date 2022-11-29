@@ -7,10 +7,7 @@ import com.zero.springframework.beans.BeansException;
 import com.zero.springframework.beans.PropertyValue;
 import com.zero.springframework.beans.PropertyValues;
 import com.zero.springframework.beans.factory.*;
-import com.zero.springframework.beans.factory.config.AutowireCapableBeanFactory;
-import com.zero.springframework.beans.factory.config.BeanDefinition;
-import com.zero.springframework.beans.factory.config.BeanPostProcessor;
-import com.zero.springframework.beans.factory.config.BeanReference;
+import com.zero.springframework.beans.factory.config.*;
 import org.omg.CORBA.ObjectHelper;
 
 import java.lang.reflect.Constructor;
@@ -29,7 +26,14 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
     protected Object createBean(String beanName, BeanDefinition beanDefinition, Object[] args) throws BeansException {
         Object bean = null;
         try {
+            // 判断是否返回代理Bean对象
+            bean = resolveBeforeInstantiation(beanName, beanDefinition);
+            if (null != bean) {
+                return bean;
+            }
             bean = createBeanInstance(beanDefinition, beanName, args);
+            // 在设置Bean对象的属性之前，允许BeanPostProcessor接口修改属性值
+            applyBeanPostProcessorsBeforeApplyingPropertyValues(beanName, bean, beanDefinition);
             // 属性填充
             applyPropertyValues(beanName, bean, beanDefinition);
             // 执行bean的初始化方法和beanPostProcessor的前置和后置方法
@@ -46,6 +50,37 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
             registerSingleton(beanName, bean);
         }
         return bean;
+    }
+
+    protected Object resolveBeforeInstantiation(String beanName, BeanDefinition beanDefinition) throws BeansException {
+        Object bean = applyBeanPostProcessorsBeforeInitialization(beanDefinition.getBeanClass(), beanName);
+        if (null != bean) {
+            bean = applyBeanPostProcessorsAfterInitialization(bean, beanName);
+        }
+        return bean;
+    }
+
+    protected Object applyBeanPostProcessorsBeforeInitialization(Class<?> beanClass, String beanName) throws BeansException {
+        for (BeanPostProcessor beanPostProcessor : getBeanPostProcessors()) {
+            if(beanPostProcessor instanceof InstantiationAwareBeanPostProcessor) {
+                Object result = beanPostProcessor.postProcessBeforeInitialization(beanClass, beanName);
+                if(null != result) return result;
+            }
+        }
+        return null;
+    }
+
+    protected void applyBeanPostProcessorsBeforeApplyingPropertyValues(String beanName, Object bean, BeanDefinition beanDefinition) throws BeansException {
+        for (BeanPostProcessor beanPostProcessor : getBeanPostProcessors()) {
+            if(beanPostProcessor instanceof InstantiationAwareBeanPostProcessor) {
+                PropertyValues pvs = ((InstantiationAwareBeanPostProcessor) beanPostProcessor).postProcessPropertyValues(beanDefinition.getPropertyValues(), bean, beanName);
+                if (null != pvs) {
+                    for (PropertyValue propertyValue : pvs.getPropertyValues()) {
+                        beanDefinition.getPropertyValues().addPropertyValue(propertyValue);
+                    }
+                }
+            }
+        }
     }
 
     private void registerDisposableBeanIfNecessary(String beanName, Object bean, BeanDefinition beanDefinition) {

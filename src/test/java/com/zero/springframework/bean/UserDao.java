@@ -1,5 +1,7 @@
 package com.zero.springframework.bean;
 
+import com.zero.springframework.stereotype.Component;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -8,6 +10,7 @@ import java.util.Map;
  * @description UserDao
  * @date 2022/5/25 14:57
  */
+@Component
 public class UserDao {
     private static Map<String, String> hashMap = new HashMap<>();
     static {

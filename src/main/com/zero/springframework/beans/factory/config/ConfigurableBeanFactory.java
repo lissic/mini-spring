@@ -2,6 +2,7 @@ package com.zero.springframework.beans.factory.config;
 
 import com.zero.springframework.beans.BeansException;
 import com.zero.springframework.beans.factory.HierarchicalBeanFactory;
+import com.zero.springframework.util.StringValueResolver;
 
 /**
  * @author zero
@@ -15,4 +16,8 @@ public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, Single
     void addBeanPostProcessor(BeanPostProcessor beanPostProcessor);
 
     void destroySingletons() throws BeansException;
+
+    void addEmbeddedValueResolver(StringValueResolver valueResolver);
+
+    String resolveEmbeddedValue(String value);
 }

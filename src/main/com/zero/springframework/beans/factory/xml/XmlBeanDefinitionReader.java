@@ -14,7 +14,6 @@ import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
-import org.w3c.dom.NodeList;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -73,14 +72,14 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
         // 解析context:component-scan标签，扫描包中的类并停工相关信息，用于组装BeanDefinition
         Element componentScan = root.element("component-scan");
         if (null != componentScan) {
-            String scanPath = componentScan.attributeValue("base-packages");
+            String scanPath = componentScan.attributeValue("base-package");
             if (StrUtil.isEmpty(scanPath)) {
                 throw new BeansException("The value of base-package attribute can not be empty or null");
             }
             scanPackages(scanPath);
         }
 
-        List<Element> beanList = root.elements("beans");
+        List<Element> beanList = root.elements("bean");
         for (Element bean : beanList) {
             String id = bean.attributeValue("id");
             String name = bean.attributeValue("name");
