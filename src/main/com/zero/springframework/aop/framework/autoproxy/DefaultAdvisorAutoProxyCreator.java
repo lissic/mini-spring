@@ -32,6 +32,11 @@ public class DefaultAdvisorAutoProxyCreator implements InstantiationAwareBeanPos
     }
 
     @Override
+    public boolean postProcessAfterInstantiation(Object bean, String beanName) {
+        return true;
+    }
+
+    @Override
     public PropertyValues postProcessPropertyValues(PropertyValues pvs, Object bean, String beanName) throws BeansException {
         return pvs;
     }
@@ -43,7 +48,7 @@ public class DefaultAdvisorAutoProxyCreator implements InstantiationAwareBeanPos
 
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) {
-        return bean;
+        return null;
     }
 
     @Override
