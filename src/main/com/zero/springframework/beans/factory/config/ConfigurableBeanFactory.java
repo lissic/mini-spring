@@ -1,7 +1,10 @@
 package com.zero.springframework.beans.factory.config;
 
+import com.sun.istack.internal.Nullable;
 import com.zero.springframework.beans.BeansException;
 import com.zero.springframework.beans.factory.HierarchicalBeanFactory;
+import com.zero.springframework.core.convert.ConversionService;
+import com.zero.springframework.core.convert.converter.Converter;
 import com.zero.springframework.util.StringValueResolver;
 
 /**
@@ -20,4 +23,9 @@ public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, Single
     void addEmbeddedValueResolver(StringValueResolver valueResolver);
 
     String resolveEmbeddedValue(String value);
+
+    void setConversionService(ConversionService conversionService);
+
+    @Nullable
+    ConversionService getConversionService();
 }

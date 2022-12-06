@@ -5,6 +5,7 @@ import com.zero.springframework.beans.factory.FactoryBean;
 import com.zero.springframework.beans.factory.config.BeanDefinition;
 import com.zero.springframework.beans.factory.config.BeanPostProcessor;
 import com.zero.springframework.beans.factory.config.ConfigurableBeanFactory;
+import com.zero.springframework.core.convert.ConversionService;
 import com.zero.springframework.util.ClassUtils;
 import com.zero.springframework.util.StringValueResolver;
 
@@ -23,6 +24,8 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
     private final List<BeanPostProcessor> beanPostProcessors = new ArrayList<>();
 
     private final List<StringValueResolver> embeddedValueResolvers = new ArrayList<>();
+
+    private ConversionService conversionService;
 
     @Override
     public Object getBean(String name) throws BeansException {
@@ -91,5 +94,15 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
             result = resolver.resolveStringValue(result);
         }
         return result;
+    }
+
+    @Override
+    public ConversionService getConversionService() {
+        return conversionService;
+    }
+
+    @Override
+    public void setConversionService(ConversionService conversionService) {
+        this.conversionService = conversionService;
     }
 }

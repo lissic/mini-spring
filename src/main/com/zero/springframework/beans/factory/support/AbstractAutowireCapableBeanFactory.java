@@ -3,11 +3,13 @@ package com.zero.springframework.beans.factory.support;
 import cn.hutool.core.bean.BeanException;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.core.util.TypeUtil;
 import com.zero.springframework.beans.BeansException;
 import com.zero.springframework.beans.PropertyValue;
 import com.zero.springframework.beans.PropertyValues;
 import com.zero.springframework.beans.factory.*;
 import com.zero.springframework.beans.factory.config.*;
+import com.zero.springframework.core.convert.ConversionService;
 import org.omg.CORBA.ObjectHelper;
 
 import java.lang.reflect.Constructor;
@@ -135,6 +137,18 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
                     BeanReference beanReference = (BeanReference) value;
                     value = getBean(beanReference.getBeanName());
                 }
+                // 类型转换
+                else {
+                    Class<?> sourceType = value.getClass();
+                    Class<?> targetType = (Class<?>)TypeUtil.getFieldType(bean.getClass(), name);
+                    ConversionService conversionService = getConversionService();
+                    if(conversionService != null) {
+                        if (conversionService.canConvert(sourceType, targetType)) {
+                            value = conversionService.convert(value, targetType);
+                        }
+                    }
+                }
+                // 反射设置属性填充
                 BeanUtil.setFieldValue(bean, name, value);
             }
 
